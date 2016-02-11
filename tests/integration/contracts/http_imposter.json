@@ -1,0 +1,73 @@
+{
+  "port": 4545,
+  "protocol": "http",
+  "name": "imposter contract service",
+  "requests": [
+    {
+      "timestamp": "2014-01-09T02:30:31.043Z",
+      "requestFrom": "::ffff:127.0.0.1:60523",
+      "method": "POST",
+      "path": "/imposters",
+      "query": {},
+      "headers": {
+        "accept": "text/plain",
+        "host": "localhost:4545",
+        "content-type": "text/plain",
+        "connection": "keep-alive",
+        "transfer-encoding": "chunked"
+      },
+      "body": "Just checking"
+    }
+  ],
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "body": "value",
+            "caseSensitive": true,
+            "except": "^The ",
+            "xpath": {
+              "selector": "//book/@title",
+              "ns": {
+                "isbn": "http://schemas.isbn.org/ns/1999/basic.dtd"
+              }
+            }
+          }
+        },
+        {
+          "inject": "function (request, logger) { return request.body.length < 100; }"
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 201,
+            "headers": {
+              "Location": "http://example.com/resource"
+            },
+            "body": "The time is ${TIME}",
+            "_mode": "text"
+          }
+        },
+        {
+          "proxy": {
+            "to": "https://www.somesite.com:3000",
+            "mode": "proxyAlways",
+            "predicateGenerators": [
+              {
+                "matches": {
+                  "method": true,
+                  "path": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "inject": "function (request, state, logger, callback) { callback({ body: 'It worked!' }); }"
+        }
+      ]
+    }
+  ]
+}
