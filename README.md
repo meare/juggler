@@ -1,9 +1,9 @@
 # Juggler
 
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/badges/build.png?b=dev)](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/build-status/dev)
-[![Code Coverage](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/badges/coverage.png?b=dev)](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/?branch=dev)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/badges/quality-score.png?b=dev)](https://scrutinizer-ci.com/b/sunfreakz/tpro-mountebank-php/?branch=dev)
+[![Build Status][ico-build]][link-build]
+[![Code Coverage][ico-coverage]][link-coverage]
+[![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
 
 Juggler is a PHP client for [mountebank](http://www.mbtest.org/) - open source tool that provides test doubles over the wire. Juggler allows to:
 
@@ -152,17 +152,14 @@ $ composer test
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/:vendor/:package_name.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/:vendor/:package_name/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/:vendor/:package_name.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/:vendor/:package_name.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/:vendor/:package_name.svg?style=flat-square
+[ico-build]: https://scrutinizer-ci.com/b/meare/juggler/badges/build.png?b=dev
+[ico-coverage]: https://scrutinizer-ci.com/b/meare/juggler/badges/coverage.png?b=dev
+[ico-code-quality]: https://scrutinizer-ci.com/b/meare/juggler/badges/quality-score.png?b=dev
 
-[link-packagist]: https://packagist.org/packages/:vendor/:package_name
-[link-travis]: https://travis-ci.org/:vendor/:package_name
-[link-scrutinizer]: https://scrutinizer-ci.com/g/:vendor/:package_name/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/:vendor/:package_name
-[link-downloads]: https://packagist.org/packages/:vendor/:package_name
-[link-author]: https://github.com/:author_username
+[link-build]: https://scrutinizer-ci.com/b/meare/juggler/build-status/dev
+[link-coverage]: https://scrutinizer-ci.com/b/meare/juggler/?branch=dev
+[link-code-quality]: https://scrutinizer-ci.com/b/meare/juggler/?branch=dev
+
+[link-author]: https://github.com/meare
 [link-contributors]: ../../contributors
