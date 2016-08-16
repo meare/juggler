@@ -41,10 +41,5 @@
   },
   "scripts": {
     "test": "phpunit --testsuite=Base"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev"
-    }
   }
 }
