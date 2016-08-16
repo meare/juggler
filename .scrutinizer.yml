@@ -21,8 +21,7 @@ tools:
     external_code_coverage: false
 
 before_commands:
-  - composer install -n
-  - composer dumpautoload -o
+  - composer install --no-interaction
 
 build:
     environment:
