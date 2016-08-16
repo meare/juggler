@@ -153,13 +153,13 @@ $ composer test
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-build]: https://scrutinizer-ci.com/b/meare/juggler/badges/build.png?b=dev
-[ico-coverage]: https://scrutinizer-ci.com/b/meare/juggler/badges/coverage.png?b=dev
-[ico-code-quality]: https://scrutinizer-ci.com/b/meare/juggler/badges/quality-score.png?b=dev
+[ico-build]: https://scrutinizer-ci.com/g/meare/juggler/badges/build.png?b=master
+[ico-coverage]: https://scrutinizer-ci.com/g/meare/juggler/badges/coverage.png?b=master
+[ico-code-quality]: https://scrutinizer-ci.com/g/meare/juggler/badges/quality-score.png?b=master
 
-[link-build]: https://scrutinizer-ci.com/b/meare/juggler/build-status/dev
-[link-coverage]: https://scrutinizer-ci.com/b/meare/juggler/?branch=dev
-[link-code-quality]: https://scrutinizer-ci.com/b/meare/juggler/?branch=dev
+[link-build]: https://scrutinizer-ci.com/g/meare/juggler/build-status/master
+[link-coverage]: https://scrutinizer-ci.com/g/meare/juggler/?branch=master
+[link-code-quality]: https://scrutinizer-ci.com/g/meare/juggler/?branch=master
 
 [link-author]: https://github.com/meare
 [link-contributors]: ../../contributors
