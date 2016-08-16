@@ -1,5 +1,6 @@
 # Juggler
 
+[![Latest Version on Packagist][ico-packagist]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-build]][link-build]
 [![Code Coverage][ico-coverage]][link-coverage]
@@ -152,11 +153,13 @@ $ composer test
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+[ico-packagist]: https://img.shields.io/packagist/v/meare/juggler.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-build]: https://scrutinizer-ci.com/g/meare/juggler/badges/build.png?b=master
 [ico-coverage]: https://scrutinizer-ci.com/g/meare/juggler/badges/coverage.png?b=master
 [ico-code-quality]: https://scrutinizer-ci.com/g/meare/juggler/badges/quality-score.png?b=master
 
+[link-packagist]: https://packagist.org/packages/meare/juggler
 [link-build]: https://scrutinizer-ci.com/g/meare/juggler/build-status/master
 [link-coverage]: https://scrutinizer-ci.com/g/meare/juggler/?branch=master
 [link-code-quality]: https://scrutinizer-ci.com/g/meare/juggler/?branch=master
