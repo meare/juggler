@@ -19,7 +19,7 @@ Only HTTP imposters are supported are supported at the moment.
 Via Composer
 
 ``` bash
-$ composer require meare/juggler
+$ composer require meare/juggler:v1.0-beta@dev
 ```
 
 ## Usage

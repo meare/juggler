@@ -34,11 +34,6 @@
       "src/functions.php"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "TPro\\Mountebank\\Test\\": "tests"
-    }
-  },
   "scripts": {
     "test": "phpunit --testsuite=Base"
   }

@@ -168,7 +168,7 @@ class Juggler
     /**
      * @param Imposter $imposter
      */
-    public function updateImposter(Imposter $imposter)
+    public function replaceImposter(Imposter $imposter)
     {
         $this->deleteImposter($imposter);
         $this->postImposter($imposter);
