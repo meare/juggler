@@ -12,7 +12,7 @@ Juggler is a PHP client for [mountebank](http://www.mbtest.org/) - open source t
 * verify mocks;
 * alter and build imposters;
 
-Only HTTP imposters are supported are supported at the moment.
+Only HTTP imposters are supported at the moment.
 
 ## Install
 
@@ -28,7 +28,7 @@ Juggler makes interactions with [mountebank API](http://www.mbtest.org/docs/api/
 ``` php
 use Meare\Juggler\Juggler;
 
-$juggler = new Juggler('mountebank');
+$juggler = new Juggler('localhost');
 
 // Delete active imposters before posting to avoid resource conflicts
 $juggler->deleteImposters();
@@ -46,7 +46,7 @@ Here is how to verify mock with Juggler:
 ```php
 use Meare\Juggler\Juggler;
 
-$juggler = new Juggler('mountebank');
+$juggler = new Juggler('localhost');
 
 // Post imposter
 $port = $juggler->postImposterFromFile(__DIR__ . '/contract.json');
@@ -101,7 +101,7 @@ At some point you might not want to create separate stub to imitate negative bal
 ```php
 use Meare\Juggler\Juggler;
 
-$juggler = new Juggler('mountebank');
+$juggler = new Juggler('localhost');
 $port = $juggler->postImposterFromFile(__DIR__ . '/contract.json');
 
 // Find stub by predicates and alter response
@@ -115,23 +115,22 @@ $imposter->findStubByPredicates([['equals' => ['method' => 'GET', 'path' => '/ac
     });
 
 // Delete imposter and post again
-$juggler->updateImposter($imposter);
+$juggler->replaceImposter($imposter);
 ```
 ## Building imposter
 ```php
 use Meare\Juggler\Imposter\HttpImposter;
-use Meare\Juggler\Imposter\Stub\Predicate\IPredicate;
 use Meare\Juggler\Imposter\Stub\Predicate\Predicate;
 use Meare\Juggler\Imposter\Stub\Response\IsResponse;
 use Meare\Juggler\Juggler;
 
-$juggler = new Juggler('mountebank');
+$juggler = new Juggler('localhost');
 
 // Create imposter with a stub for GET /test-endpoint
 $imposter = new HttpImposter;
 $imposter->createStub(
     [new IsResponse(200, ['Content-type' => 'application/json'], '{"status":200}')],
-    [new Predicate(IPredicate::EQUALS, ['method' => 'GET', 'path' => '/test-endpoint'])]
+    [new Predicate(Predicate::EQUALS, ['method' => 'GET', 'path' => '/test-endpoint'])]
 );
 
 // Post it!
