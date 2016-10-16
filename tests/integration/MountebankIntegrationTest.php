@@ -57,7 +57,7 @@ class MountebankIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->httpClient = $this->getMockBuilder(IHttpClient::class)->getMock();
         $this->httpClient->expects($this->once())
             ->method('get')
-            ->with('/imposters/4545?replayable=1&remove_proxies=1')
+            ->with('/imposters/4545?replayable=true&remove_proxies=true')
             ->willReturn($contract);
 
         $imposter = $this->getJuggler()->getImposter(4545, true, true);

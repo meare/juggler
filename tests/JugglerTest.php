@@ -67,7 +67,7 @@ class JugglerTest extends PHPUnit_Framework_TestCase
     {
         $this->httpClient->expects($this->once())
             ->method('get')
-            ->with('/imposters/7575?replayable=0&remove_proxies=0');
+            ->with('/imposters/7575?');
         $juggler = $this->getJuggler();
 
         $juggler->getImposterContract(7575);
@@ -77,7 +77,7 @@ class JugglerTest extends PHPUnit_Framework_TestCase
     {
         $this->httpClient->expects($this->once())
             ->method('delete')
-            ->with('/imposters/6565?replayable=1&remove_proxies=1');
+            ->with('/imposters/6565?replayable=true&remove_proxies=true');
         $juggler = $this->getJuggler();
 
         $juggler->deleteImposter(6565, true, true);
@@ -87,7 +87,7 @@ class JugglerTest extends PHPUnit_Framework_TestCase
     {
         $this->httpClient->expects($this->once())
             ->method('delete')
-            ->with('/imposters/6565?replayable=0&remove_proxies=0');
+            ->with('/imposters/6565?');
         $juggler = $this->getJuggler();
 
         $juggler->deleteImposter(6565);
@@ -107,7 +107,7 @@ class JugglerTest extends PHPUnit_Framework_TestCase
     {
         $this->httpClient->expects($this->once())
             ->method('get')
-            ->with('/imposters/6565?remove_proxies=1');
+            ->with('/imposters/6565?remove_proxies=true');
         $juggler = $this->getJuggler();
 
         $juggler->removeProxies(6565);

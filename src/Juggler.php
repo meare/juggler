@@ -157,10 +157,7 @@ class Juggler
      */
     public function getImposterContract(int $port, bool $replayable = false, bool $remove_proxies = false) : string
     {
-        $query = http_build_query([
-            self::PARAM_REPLAYABLE     => $replayable,
-            self::PARAM_REMOVE_PROXIES => $remove_proxies,
-        ]);
+        $query = $this->composeQueryString($replayable, $remove_proxies);
 
         return $this->httpClient->get("/imposters/$port?$query");
     }
@@ -184,10 +181,7 @@ class Juggler
      */
     public function deleteImposter($imposter, bool $replayable = false, bool $remove_proxies = false)
     {
-        $query = http_build_query([
-            self::PARAM_REPLAYABLE     => $replayable,
-            self::PARAM_REMOVE_PROXIES => $remove_proxies,
-        ]);
+        $query = $this->composeQueryString($replayable, $remove_proxies);
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
 
         return $this->httpClient->delete("/imposters/$port?$query");
@@ -222,9 +216,7 @@ class Juggler
      */
     public function removeProxies(int $port)
     {
-        $query = http_build_query([
-            self::PARAM_REMOVE_PROXIES => true,
-        ]);
+        $query = $this->composeQueryString(false, true);
         $this->httpClient->get("/imposters/$port?$query");
     }
 
@@ -238,5 +230,21 @@ class Juggler
     {
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
         file_put_contents($path, $this->getImposterContract($port));
+    }
+
+    /**
+     * mountebank API only supports string 'true' as boolean param value
+     *
+     * @param bool $replayable
+     * @param bool $remove_proxies
+     *
+     * @return string
+     */
+    private function composeQueryString(bool $replayable, bool $remove_proxies) : string
+    {
+        return http_build_query(array_filter([
+            self::PARAM_REPLAYABLE     => $replayable ? 'true' : null,
+            self::PARAM_REMOVE_PROXIES => $remove_proxies ? 'true' : null,
+        ]));
     }
 }
