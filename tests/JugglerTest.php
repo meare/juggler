@@ -112,4 +112,16 @@ class JugglerTest extends PHPUnit_Framework_TestCase
 
         $juggler->removeProxies(6565);
     }
+
+    public function testContractIsReturnedOnImposterDeletion()
+    {
+        $this->httpClient->method('delete')
+            ->willReturn('{"foo":"bar"}');
+
+        $this->assertEquals(
+            '{"foo":"bar"}',
+            $this->getJuggler()->deleteImposter(4545),
+            'Juggler returns contract mountebank responded with'
+        );
+    }
 }

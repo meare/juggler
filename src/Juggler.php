@@ -178,6 +178,8 @@ class Juggler
      * @param int|Imposter $imposter Port or Imposter instance
      * @param bool         $replayable
      * @param bool         $remove_proxies
+     *
+     * @return string Imposter contract
      * @throws MountebankException
      */
     public function deleteImposter($imposter, bool $replayable = false, bool $remove_proxies = false)
@@ -187,7 +189,8 @@ class Juggler
             self::PARAM_REMOVE_PROXIES => $remove_proxies,
         ]);
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
-        $this->httpClient->delete("/imposters/$port?$query");
+
+        return $this->httpClient->delete("/imposters/$port?$query");
     }
 
     /**
