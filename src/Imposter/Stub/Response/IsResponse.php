@@ -151,9 +151,10 @@ class IsResponse implements IResponse
     public function setHeaders(array $headers)
     {
         foreach ($headers as $name => $value) {
-            if (!is_string($name) || !is_string($value)) {
+            if (!is_string($name)) {
                 throw new \InvalidArgumentException(
-                    "Unable to set IsResponse headers; Header name and value must be string"
+                    'Unable to set IsResponse headers; Header name expected be string, '
+                    . gettype($name) . " received ('" . (string)$name . "')"
                 );
             }
         }

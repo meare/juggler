@@ -33,20 +33,21 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testInvalidHeaderValue()
-    {
-        $response = new IsResponse;
-        $this->expectException(InvalidArgumentException::class);
-        $response->setHeaders([
-            1 => ['application/json'],
-        ]);
-    }
-
-    public function testValidHeaders()
+    public function testStringHeaderValue()
     {
         $response = new IsResponse;
         $headers = [
             'Content-type' => 'application/json',
+        ];
+        $response->setHeaders($headers);
+        $this->assertEquals($headers, $response->getHeaders());
+    }
+
+    public function testIntegerHeaderValue()
+    {
+        $response = new IsResponse;
+        $headers = [
+            'Content-type' => 1024,
         ];
         $response->setHeaders($headers);
         $this->assertEquals($headers, $response->getHeaders());
