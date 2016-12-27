@@ -71,7 +71,7 @@ class StubTest extends PHPUnit_Framework_TestCase
     {
         $stub = new Stub(
             new IsResponse,
-            new Predicate(Predicate::CONTAINS, [
+            new Predicate(Predicate::OPERATOR_CONTAINS, [
                 'body' => 'data',
             ])
         );
@@ -182,7 +182,7 @@ class StubTest extends PHPUnit_Framework_TestCase
 
     public function testGetPredicates()
     {
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, ['body' => '']);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['body' => '']);
         $stub = new Stub(null, $predicate);
 
         $this->assertSame([$predicate], $stub->getPredicates());
@@ -199,7 +199,7 @@ class StubTest extends PHPUnit_Framework_TestCase
 
     public function testClearPredicates()
     {
-        $stub = new Stub([], [new Predicate(Predicate::DEEP_EQUALS, [])]);
+        $stub = new Stub([], [new Predicate(Predicate::OPERATOR_DEEP_EQUALS, [])]);
 
         $stub->clearPredicates();
 

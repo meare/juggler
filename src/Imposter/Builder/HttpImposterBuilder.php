@@ -30,26 +30,29 @@ class HttpImposterBuilder extends ImposterBuilder
     /**
      * @return HttpImposterBuilder
      */
-    public static function create() : self
+    public static function create()
     {
         return new self(StubBuilder::create());
     }
 
     /**
      * @param array $contract
-     * @return \Meare\Juggler\\Meare\Juggler\Imposter\Imposter
+     * @return \Meare\Juggler\Imposter\Imposter
      */
-    public function build(array $contract) : Imposter
+    public function build(array $contract)
     {
         $this->validateContractProtocol($contract);
         $imposter = new HttpImposter(
-            $contract['port'] ?? null,
-            $contract['requests'] ?? []
+            isset($contract['port']) ? $contract['port'] : null,
+            isset($contract['requests']) ? $contract['requests'] : []
         );
+
         if (isset($contract['name'])) {
             $imposter->setName($contract['name']);
         }
-        foreach ($contract['stubs'] ?? [] as $stub_contract) {
+
+        $stubs = isset($contract['stubs']) ? $contract['stubs'] : [];
+        foreach ($stubs as $stub_contract) {
             $imposter->addStub($this->stubBuilder->build($stub_contract));
         }
 

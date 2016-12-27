@@ -28,7 +28,7 @@ class MountebankException extends \Exception
      * @param int             $code
      * @param \Exception|null $previous
      */
-    public function __construct($message, string $source = null, string $data = null, $code = 0, \Exception $previous = null)
+    public function __construct($message, $source = null, $data = null, $code = 0, \Exception $previous = null)
     {
         $this->source = $source;
         $this->data = $data;

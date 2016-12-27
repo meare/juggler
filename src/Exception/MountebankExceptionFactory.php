@@ -34,7 +34,7 @@ class MountebankExceptionFactory
      * @param string $response_body
      * @return MountebankException
      */
-    public function createInstanceFromMountebankResponse(string $response_body) : MountebankException
+    public function createInstanceFromMountebankResponse($response_body)
     {
         $errors = \GuzzleHttp\json_decode($response_body, true)['errors'];
         $first_error = reset($errors);
@@ -42,8 +42,8 @@ class MountebankExceptionFactory
         return $this->createInstance(
             $first_error['code'],
             $first_error['message'],
-            $first_error['source'] ?? null,
-            $first_error['data'] ?? null
+            isset($first_error['source']) ? $first_error['source'] : null,
+            isset($first_error['data']) ? $first_error['data'] : null
         );
     }
 
@@ -54,13 +54,13 @@ class MountebankExceptionFactory
      * @param string $data
      * @return MountebankException
      */
-    public function createInstance(string $error_code, string $message, string $source = null, string $data = null) : MountebankException
+    public function createInstance($error_code, $message, $source = null, $data = null)
     {
-        $exception_class = $this->errorMap[$error_code] ?? null;
-        if (null === $exception_class) {
+        if (!isset($this->errorMap[$error_code])) {
             throw new \InvalidArgumentException('Unable to instantiate MountebankException; ' .
                 "no class found for mountebank error code '$error_code'");
         }
+        $exception_class = $this->errorMap[$error_code];
 
         return new $exception_class($message, $source, $data);
     }

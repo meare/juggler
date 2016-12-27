@@ -18,7 +18,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase
 
     public function testCompilation()
     {
-        $operator = Predicate:: AND;
+        $operator = Predicate::OPERATOR_AND;
         $fields = [
             'body' => 'value',
         ];
@@ -32,29 +32,36 @@ class PredicateTest extends PHPUnit_Framework_TestCase
 
     public function testEmptyObjectPredicate()
     {
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, []);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, []);
 
         $this->assertSame('{"deepEquals":{}}', json_encode($predicate));
     }
 
     public function testEmptyArrayPredicate()
     {
-        $predicate = new Predicate(Predicate:: AND, []);
+        $predicate = new Predicate(Predicate::OPERATOR_AND, []);
 
         $this->assertSame('{"and":[]}', json_encode($predicate));
     }
 
     public function testEmptyDeepEqualsQuery()
     {
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, ['query' => []]);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['query' => []]);
 
         $this->assertSame('{"deepEquals":{"query":{}}}', json_encode($predicate));
     }
 
     public function testGetOperator()
     {
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, []);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, []);
 
-        $this->assertSame(Predicate::DEEP_EQUALS, $predicate->getOperator());
+        $this->assertSame(Predicate::OPERATOR_DEEP_EQUALS, $predicate->getOperator());
+    }
+
+    public function testInvalidPredicateType()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        
+        new Predicate('invalidType', []);
     }
 }

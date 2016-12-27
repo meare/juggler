@@ -48,12 +48,12 @@ class Juggler
      * @param int         $port
      * @param IHttpClient $httpClient
      */
-    public function __construct(string $host, int $port = self::DEFAULT_PORT, IHttpClient $httpClient = null)
+    public function __construct($host, $port = self::DEFAULT_PORT, IHttpClient $httpClient = null)
     {
         $this->host = $host;
         $this->port = $port;
         $this->setUrl($host, $port);
-        $this->httpClient = $httpClient ?? GuzzleClient::create();
+        $this->httpClient = isset($httpClient) ? $httpClient : GuzzleClient::create();
         $this->httpClient->setHost($this->getUrl());
         $this->abstractImposterBuilder = new AbstractImposterBuilder;
     }
@@ -62,7 +62,7 @@ class Juggler
      * @param string $host
      * @param int    $port
      */
-    private function setUrl(string $host, int $port)
+    private function setUrl($host, $port)
     {
         $this->url = 'http://' . $host . ':' . $port;
     }
@@ -70,7 +70,7 @@ class Juggler
     /**
      * @return string
      */
-    public function getUrl() : string
+    public function getUrl()
     {
         return $this->url;
     }
@@ -78,7 +78,7 @@ class Juggler
     /**
      * @return string
      */
-    public function getHost() : string
+    public function getHost()
     {
         return $this->host;
     }
@@ -86,7 +86,7 @@ class Juggler
     /**
      * @return int
      */
-    public function getPort() : int
+    public function getPort()
     {
         return $this->port;
     }
@@ -95,7 +95,7 @@ class Juggler
      * @param string $path
      * @return Imposter
      */
-    public function createImposterFromFile(string $path) : Imposter
+    public function createImposterFromFile($path)
     {
         return $this->abstractImposterBuilder->build(file_get_contents($path));
     }
@@ -106,7 +106,7 @@ class Juggler
      * @throws \RuntimeException if file does not exist
      * @return int Imposter port
      */
-    public function postImposterFromFile(string $path)
+    public function postImposterFromFile($path)
     {
         return $this->postImposterContract(file_get_contents($path));
     }
@@ -116,7 +116,7 @@ class Juggler
      * @throws MountebankException
      * @return int Imposter port
      */
-    public function postImposterContract(string $contract)
+    public function postImposterContract($contract)
     {
         $received_contract = $this->httpClient->post('/imposters', $contract);
 
@@ -129,7 +129,7 @@ class Juggler
      * @param bool $remove_proxies
      * @return HttpImposter
      */
-    public function getHttpImposter(int $port, bool $replayable = false, bool $remove_proxies = false) : HttpImposter
+    public function getHttpImposter($port, $replayable = false, $remove_proxies = false)
     {
         return $this->getImposter($port, $replayable, $remove_proxies);
     }
@@ -143,7 +143,7 @@ class Juggler
      * @throws MountebankException
      * @return Imposter
      */
-    public function getImposter(int $port, bool $replayable = false, bool $remove_proxies = false) : Imposter
+    public function getImposter($port, $replayable = false, $remove_proxies = false)
     {
         return $this->abstractImposterBuilder->build($this->getImposterContract($port, $replayable, $remove_proxies));
     }
@@ -155,7 +155,7 @@ class Juggler
      * @throws MountebankException
      * @return string
      */
-    public function getImposterContract(int $port, bool $replayable = false, bool $remove_proxies = false) : string
+    public function getImposterContract($port, $replayable = false, $remove_proxies = false)
     {
         $query = $this->composeQueryString($replayable, $remove_proxies);
 
@@ -179,7 +179,7 @@ class Juggler
      * @return string Imposter contract
      * @throws MountebankException
      */
-    public function deleteImposter($imposter, bool $replayable = false, bool $remove_proxies = false)
+    public function deleteImposter($imposter, $replayable = false, $remove_proxies = false)
     {
         $query = $this->composeQueryString($replayable, $remove_proxies);
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
@@ -192,7 +192,7 @@ class Juggler
      * @throws MountebankException
      * @return int Imposter port
      */
-    public function postImposter(Imposter $imposter) : int
+    public function postImposter(Imposter $imposter)
     {
         $port = $this->postImposterContract(json_encode($imposter));
         if (!$imposter->hasPort()) {
@@ -214,7 +214,7 @@ class Juggler
      * @param int $port
      * @throws MountebankException
      */
-    public function removeProxies(int $port)
+    public function removeProxies($port)
     {
         $query = $this->composeQueryString(false, true);
         $this->httpClient->get("/imposters/$port?$query");
@@ -226,7 +226,7 @@ class Juggler
      * @param int|Imposter $imposter
      * @param string       $path
      */
-    public function saveContract($imposter, string $path)
+    public function saveContract($imposter, $path)
     {
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
         file_put_contents($path, $this->getImposterContract($port));
@@ -240,7 +240,7 @@ class Juggler
      *
      * @return string
      */
-    private function composeQueryString(bool $replayable, bool $remove_proxies) : string
+    private function composeQueryString($replayable, $remove_proxies)
     {
         return http_build_query(array_filter([
             self::PARAM_REPLAYABLE     => $replayable ? 'true' : null,

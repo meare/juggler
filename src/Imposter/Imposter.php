@@ -4,7 +4,6 @@ namespace Meare\Juggler\Imposter;
 
 
 use Meare\Juggler\Exception\Client\NotFoundException;
-use function Meare\Juggler\is_subarray_assoc;
 
 abstract class Imposter implements \JsonSerializable
 {
@@ -37,7 +36,7 @@ abstract class Imposter implements \JsonSerializable
      * @param int|null $port
      * @param array    $requests
      */
-    public function __construct(int $port = null, array $requests = [])
+    public function __construct($port = null, array $requests = [])
     {
         if (null !== $port) {
             $this->setPort($port);
@@ -57,7 +56,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @return bool
      */
-    public function hasRequests() : bool
+    public function hasRequests()
     {
         return sizeof($this->requests) > 0;
     }
@@ -65,7 +64,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @return array
      */
-    public function getRequests() : array
+    public function getRequests()
     {
         return $this->requests;
     }
@@ -76,7 +75,7 @@ abstract class Imposter implements \JsonSerializable
      * @return bool
      * @throws NotFoundException
      */
-    public function hasRequestsByCriteria($criteria, int $exactly = null) : bool
+    public function hasRequestsByCriteria($criteria, $exactly = null)
     {
         $num = $this->countRequestsByCriteria($criteria);
         if (null === $exactly) {
@@ -90,7 +89,7 @@ abstract class Imposter implements \JsonSerializable
      * @param array $criteria
      * @return int
      */
-    public function countRequestsByCriteria($criteria) : int
+    public function countRequestsByCriteria($criteria)
     {
         try {
             return sizeof($this->findRequests($criteria));
@@ -104,11 +103,11 @@ abstract class Imposter implements \JsonSerializable
      * @return array
      * @throws NotFoundException
      */
-    public function findRequests($match) : array
+    public function findRequests($match)
     {
         $matched_requests = [];
         foreach ($this->requests as $request) {
-            if (is_subarray_assoc($match, $request)) {
+            if (\Meare\Juggler\is_subarray_assoc($match, $request)) {
                 $matched_requests[] = $request;
             }
         }
@@ -130,7 +129,7 @@ abstract class Imposter implements \JsonSerializable
      * @param int $port
      * @return self
      */
-    public function setPort(int $port)
+    public function setPort($port)
     {
         $this->port = $port;
     }
@@ -138,7 +137,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @return string
      */
-    public function getProtocol() : string
+    public function getProtocol()
     {
         return $this->protocol;
     }
@@ -146,7 +145,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @return bool
      */
-    public function hasName() : bool
+    public function hasName()
     {
         return null !== $this->getName();
     }
@@ -162,7 +161,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -170,7 +169,7 @@ abstract class Imposter implements \JsonSerializable
     /**
      * @return bool
      */
-    public function hasPort() : bool
+    public function hasPort()
     {
         return null !== $this->port;
     }

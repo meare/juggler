@@ -38,7 +38,7 @@ class ProxyResponse implements IResponse
      * @param string $mode
      * @param array  $predicate_generators
      */
-    public function __construct(string $to, $mode = null, array $predicate_generators = [])
+    public function __construct($to, $mode = null, array $predicate_generators = [])
     {
         $this->setTo($to);
         if (null !== $mode) {
@@ -51,7 +51,7 @@ class ProxyResponse implements IResponse
      * @param array $contract
      * @return ProxyResponse
      */
-    public static function createFromContract($contract) : self
+    public static function createFromContract($contract)
     {
         if (!isset($contract['to'])) {
             throw new \InvalidArgumentException("Cannot create ProxyResponse from contract: Invalid contract; 'to' field does not exists");
@@ -59,15 +59,15 @@ class ProxyResponse implements IResponse
 
         return new self(
             $contract['to'],
-            $contract['mode'] ?? null,
-            $contract['predicateGenerators'] ?? []
+            isset($contract['mode']) ? $contract['mode'] : null,
+            isset($contract['predicateGenerators']) ? $contract['predicateGenerators'] : []
         );
     }
 
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
         return [
             IResponse::TYPE_PROXY => [
@@ -81,7 +81,7 @@ class ProxyResponse implements IResponse
     /**
      * @return string
      */
-    public function getTo() : string
+    public function getTo()
     {
         return $this->to;
     }
@@ -89,7 +89,7 @@ class ProxyResponse implements IResponse
     /**
      * @param string $to
      */
-    public function setTo(string $to)
+    public function setTo($to)
     {
         if (!filter_var($to, FILTER_VALIDATE_URL) || null !== parse_url($to, PHP_URL_PATH)) {
             throw new \InvalidArgumentException(
@@ -102,7 +102,7 @@ class ProxyResponse implements IResponse
     /**
      * @return string
      */
-    public function getMode() : string
+    public function getMode()
     {
         return $this->mode;
     }
@@ -110,7 +110,7 @@ class ProxyResponse implements IResponse
     /**
      * @param string $mode
      */
-    public function setMode(string $mode)
+    public function setMode($mode)
     {
         if (!in_array($mode, [self::MODE_PROXY_ALWAYS, self::MODE_PROXY_ONCE])) {
             throw new \InvalidArgumentException(
@@ -123,7 +123,7 @@ class ProxyResponse implements IResponse
     /**
      * @return array
      */
-    public function getPredicateGenerators() : array
+    public function getPredicateGenerators()
     {
         return $this->predicateGenerators;
     }
@@ -139,7 +139,7 @@ class ProxyResponse implements IResponse
     /**
      * @return string
      */
-    public function getType() : string
+    public function getType()
     {
         return $this->type;
     }

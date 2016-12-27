@@ -90,12 +90,12 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
     {
         $imposter = new HttpImposter;
         $getStub = new Stub([], [
-            new Predicate(Predicate::DEEP_EQUALS, ['method' => 'GET']),
-            new Predicate(Predicate::DEEP_EQUALS, ['path' => '/counters']),
+            new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['method' => 'GET']),
+            new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['path' => '/counters']),
         ]);
         $postStub = new Stub([], [
-            new Predicate(Predicate::DEEP_EQUALS, ['method' => 'POST']),
-            new Predicate(Predicate::DEEP_EQUALS, ['path' => '/counters']),
+            new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['method' => 'POST']),
+            new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['path' => '/counters']),
         ]);
 
         $imposter->setStubs([$getStub, $postStub]);
@@ -118,7 +118,7 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
     public function testCreateStub()
     {
         $response = new IsResponse;
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, ['body' => '']);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['body' => '']);
 
         $stub = (new HttpImposter(null))->createStub($response, $predicate);
 
@@ -139,14 +139,14 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
     {
         $imposter = new HttpImposter(null, [['headers' => []]]);
 
-        $this->assertInstanceOf(\StdClass::class, $imposter->jsonSerialize()['requests'][0]['headers']);
+        $this->assertInstanceOf(\stdClass::class, $imposter->jsonSerialize()['requests'][0]['headers']);
     }
 
     public function testEmptyRequestQuerySerializesAsStdClass()
     {
         $imposter = new HttpImposter(null, [['query' => []]]);
 
-        $this->assertInstanceOf(\StdClass::class, $imposter->jsonSerialize()['requests'][0]['query']);
+        $this->assertInstanceOf(\stdClass::class, $imposter->jsonSerialize()['requests'][0]['query']);
     }
 
     public function testJsonSerializeWithMinimumFieldsSet()

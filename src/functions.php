@@ -9,7 +9,7 @@ namespace Meare\Juggler;
  * @param array $a2
  * @return bool
  */
-function is_subarray_assoc(array $a1, array $a2) : bool
+function is_subarray_assoc(array $a1, array $a2)
 {
     $result = true;
     foreach ($a1 as $key => $value) {
@@ -34,7 +34,7 @@ function is_subarray_assoc(array $a1, array $a2) : bool
  * @param array $array
  * @return array
  */
-function array_filter_null(array $array) : array
+function array_filter_null(array $array)
 {
     return array_filter($array, function ($var) {
         return null !== $var;

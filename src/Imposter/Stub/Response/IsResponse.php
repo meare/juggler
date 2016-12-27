@@ -41,7 +41,7 @@ class IsResponse implements IResponse
      * @param string|array $body
      * @param string       $mode
      */
-    public function __construct(int $status_code = 200, array $headers = [], $body = null, string $mode = null)
+    public function __construct($status_code = 200, array $headers = [], $body = null, $mode = null)
     {
         $this->setStatusCode($status_code);
         $this->setHeaders($headers);
@@ -57,7 +57,7 @@ class IsResponse implements IResponse
      * @param array $contract
      * @return self
      */
-    public static function createFromContract($contract) : self
+    public static function createFromContract($contract)
     {
         if (!isset($contract['statusCode'])) {
             throw new \InvalidArgumentException("Cannot create IsResponse from contract: Invalid contract; 'statusCode' field does not exists");
@@ -65,9 +65,9 @@ class IsResponse implements IResponse
 
         return new self(
             $contract['statusCode'],
-            $contract['headers'] ?? [],
-            $contract['body'] ?? null,
-            $contract['_mode'] ?? null
+            isset($contract['headers']) ? $contract['headers'] : [],
+            isset($contract['body']) ? $contract['body'] : null,
+            isset($contract['_mode']) ? $contract['_mode'] : null
         );
     }
 
@@ -107,7 +107,7 @@ class IsResponse implements IResponse
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
         return [
             IResponse::TYPE_IS => [
@@ -122,7 +122,7 @@ class IsResponse implements IResponse
     /**
      * @return int
      */
-    public function getStatusCode() : int
+    public function getStatusCode()
     {
         return $this->statusCode;
     }
@@ -130,7 +130,7 @@ class IsResponse implements IResponse
     /**
      * @param int $status_code
      */
-    public function setStatusCode(int $status_code)
+    public function setStatusCode($status_code)
     {
         $this->statusCode = $status_code;
     }
@@ -138,7 +138,7 @@ class IsResponse implements IResponse
     /**
      * @return array
      */
-    public function getHeaders() : array
+    public function getHeaders()
     {
         return $this->headers;
     }
@@ -164,7 +164,7 @@ class IsResponse implements IResponse
     /**
      * @return string
      */
-    public function getMode() : string
+    public function getMode()
     {
         return $this->mode;
     }
@@ -172,7 +172,7 @@ class IsResponse implements IResponse
     /**
      * @param string $mode
      */
-    public function setMode(string $mode)
+    public function setMode($mode)
     {
         if (!in_array($mode, [self::MODE_TEXT, self::MODE_BINARY])) {
             throw new \InvalidArgumentException("Unable to set IsResponse mode; Invalid mode: '$mode'");
@@ -183,7 +183,7 @@ class IsResponse implements IResponse
     /**
      * @return string
      */
-    public function getType() : string
+    public function getType()
     {
         return $this->type;
     }

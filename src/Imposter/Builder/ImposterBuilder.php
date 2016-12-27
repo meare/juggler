@@ -18,7 +18,7 @@ abstract class ImposterBuilder
      * @param array $contract
      * @return Imposter
      */
-    abstract public function build(array $contract) : Imposter;
+    abstract public function build(array $contract);
 
     /**
      * @param array $contract

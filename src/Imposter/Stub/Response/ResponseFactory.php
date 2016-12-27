@@ -21,14 +21,14 @@ class ResponseFactory
      * @param array|string $contract
      * @return IResponse
      */
-    public function createInstance(string $type, $contract) : IResponse
+    public function createInstance($type, $contract)
     {
-        $class = $this->allowedTypes[$type] ?? null;
-        if (null === $class) {
+        if (!isset($this->allowedTypes[$type])) {
             throw new \InvalidArgumentException("Cannot create response object; Invalid response type: '$type'");
         }
 
         /** @var IResponse $class */
+        $class = $this->allowedTypes[$type];
         return $class::createFromContract($contract);
     }
 }

@@ -20,15 +20,14 @@ class AbstractImposterBuilder
      * @return \Meare\Juggler\Imposter\Imposter
      * @throws \InvalidArgumentException if contract has no protocol or no appropriate Builder found
      */
-    public function build(string $json) : Imposter
+    public function build($json)
     {
         $contract = \GuzzleHttp\json_decode($json, true);
-        $protocol = $contract['protocol'] ?? null;
-        if (null === $protocol) {
+        if (!isset($contract['protocol'])) {
             throw new \InvalidArgumentException('Invalid contract; Protocol is not specified');
         }
 
-        return $this->getBuilder($protocol)->build($contract);
+        return $this->getBuilder($contract['protocol'])->build($contract);
     }
 
     /**
@@ -36,10 +35,9 @@ class AbstractImposterBuilder
      * @return ImposterBuilder
      * @throws \InvalidArgumentException if no appropriate Builder found
      */
-    protected function getBuilder(string $protocol) : ImposterBuilder
+    protected function getBuilder($protocol)
     {
-        $builder = $this->buildersMap[$protocol] ?? null;
-        if (null === $builder) {
+        if (!isset($this->buildersMap[$protocol])) {
             throw new \InvalidArgumentException("'$protocol' imposter objects are not supported");
         }
 

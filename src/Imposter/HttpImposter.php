@@ -6,9 +6,6 @@ namespace Meare\Juggler\Imposter;
 use Meare\Juggler\Exception\Client\NotFoundException;
 use Meare\Juggler\Imposter\Stub\Predicate\IPredicate;
 use Meare\Juggler\Imposter\Stub\Response\IResponse;
-use function Meare\Juggler\array_filter_null;
-use function Meare\Juggler\is_subarray_assoc;
-use function Meare\Juggler\json_object;
 
 class HttpImposter extends Imposter
 {
@@ -25,9 +22,9 @@ class HttpImposter extends Imposter
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
-        return array_filter_null([
+        return \Meare\Juggler\array_filter_null([
             'port'     => $this->getPort(),
             'protocol' => $this->getProtocol(),
             'name'     => $this->getName(),
@@ -39,15 +36,15 @@ class HttpImposter extends Imposter
     /**
      * @return array
      */
-    private function serializeRequests() : array
+    private function serializeRequests()
     {
         $requests = $this->requests;
         foreach ($requests as $key => $request) {
             if (isset($request['query'])) {
-                $requests[$key]['query'] = json_object($request['query']);
+                $requests[$key]['query'] = \Meare\Juggler\json_object($request['query']);
             }
             if (isset($request['headers'])) {
-                $requests[$key]['headers'] = json_object($request['headers']);
+                $requests[$key]['headers'] = \Meare\Juggler\json_object($request['headers']);
             }
         }
 
@@ -57,7 +54,7 @@ class HttpImposter extends Imposter
     /**
      * @return array
      */
-    private function jsonSerializeStubs() : array
+    private function jsonSerializeStubs()
     {
         $stubs = [];
         foreach ($this->stubs as $stub) {
@@ -72,7 +69,7 @@ class HttpImposter extends Imposter
      * @param IPredicate[]|IPredicate $predicates
      * @return Stub\Stub
      */
-    public function createStub($responses = null, $predicates = null) : Stub\Stub
+    public function createStub($responses = null, $predicates = null)
     {
         $stub = new Stub\Stub($responses, $predicates);
         $this->addStub($stub);
@@ -91,7 +88,7 @@ class HttpImposter extends Imposter
     /**
      * @return Stub\Stub[]
      */
-    public function getStubs() : array
+    public function getStubs()
     {
         return $this->stubs;
     }
@@ -141,7 +138,7 @@ class HttpImposter extends Imposter
      * @return Stub\Stub
      * @throws NotFoundException
      */
-    public function findStubByPredicates($criteria) : Stub\Stub
+    public function findStubByPredicates($criteria)
     {
         foreach ($this->stubs as $stub) {
             if ($stub->isPredicatesMatch($criteria)) {

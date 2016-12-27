@@ -3,7 +3,9 @@
 namespace Meare\Juggler\Test\Imposter\Stub;
 
 
+use Meare\Juggler\Imposter\Stub\Predicate\IPredicate;
 use Meare\Juggler\Imposter\Stub\Predicate\PredicateFactory;
+use Meare\Juggler\Imposter\Stub\Response\IResponse;
 use Meare\Juggler\Imposter\Stub\Response\ResponseFactory;
 use Meare\Juggler\Imposter\Stub\StubBuilder;
 use PHPUnit_Framework_TestCase;
@@ -24,8 +26,15 @@ class StubBuilderTest extends PHPUnit_Framework_TestCase
     {
         $this->responseFactory = $this->getMockBuilder(ResponseFactory::class)
             ->getMock();
+        $this->responseFactory
+            ->method('createInstance')
+            ->willReturn($this->getMockBuilder(IResponse::class)->getMock());
+
         $this->predicateFactory = $this->getMockBuilder(PredicateFactory::class)
             ->getMock();
+        $this->predicateFactory
+            ->method('createInstance')
+            ->willReturn($this->getMockBuilder(IPredicate::class)->getMock());
     }
 
     public function testResponseFactoryIsCalled()

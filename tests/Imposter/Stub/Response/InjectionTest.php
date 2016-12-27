@@ -15,12 +15,6 @@ class InjectionTest extends PHPUnit_Framework_TestCase
         $this->assertSame($js, $inject->getJs());
     }
 
-    public function testStaticFactoryMethodWithInvalidContract()
-    {
-        $this->expectException(\TypeError::class);
-        Injection::createFromContract([]);
-    }
-
     public function testCompile()
     {
         $inject = new Injection('function(){}');

@@ -38,7 +38,7 @@ class GuzzleClient implements IHttpClient
     /**
      * @return GuzzleClient
      */
-    public static function create() : self
+    public static function create()
     {
         return new self(
             new Client, new MountebankExceptionFactory
@@ -48,7 +48,7 @@ class GuzzleClient implements IHttpClient
     /**
      * @param string $host
      */
-    public function setHost(string $host)
+    public function setHost($host)
     {
         $this->host = rtrim($host, '/');
     }
@@ -58,9 +58,9 @@ class GuzzleClient implements IHttpClient
      * @return string
      * @throws MountebankException
      */
-    public function get(string $path) : string
+    public function get($path)
     {
-        return $this->request('GET', $path);
+        return (string)$this->request('GET', $path);
     }
 
     /**
@@ -70,7 +70,7 @@ class GuzzleClient implements IHttpClient
      * @return string
      * @throws MountebankException
      */
-    public function request(string $method, string $path, string $data = null) : string
+    public function request($method, $path, $data = null)
     {
         if (!$this->hasHost()) {
             throw new \LogicException('Host not set; Unable to perform request');
@@ -91,7 +91,7 @@ class GuzzleClient implements IHttpClient
     /**
      * @return bool
      */
-    public function hasHost() : bool
+    public function hasHost()
     {
         return null !== $this->host;
     }
@@ -100,7 +100,7 @@ class GuzzleClient implements IHttpClient
      * @param string $path
      * @return string
      */
-    private function getUrl(string $path) : string
+    private function getUrl($path)
     {
         return $this->host . $path;
     }
@@ -111,7 +111,7 @@ class GuzzleClient implements IHttpClient
      * @param ClientException $e
      * @return MountebankException
      */
-    private function convertToMountebankException(ClientException $e) : MountebankException
+    private function convertToMountebankException(ClientException $e)
     {
         return $this->exceptionFactory->createInstanceFromMountebankResponse(
             (string)$e->getResponse()->getBody()
@@ -124,9 +124,9 @@ class GuzzleClient implements IHttpClient
      * @return string
      * @throws MountebankException
      */
-    public function post(string $path, string $data) : string
+    public function post($path, $data)
     {
-        return $this->request('POST', $path, $data);
+        return (string)$this->request('POST', $path, $data);
     }
 
     /**
@@ -135,9 +135,9 @@ class GuzzleClient implements IHttpClient
      * @return string
      * @throws MountebankException
      */
-    public function put(string $path, string $data) : string
+    public function put($path, $data)
     {
-        return $this->request('PUT', $path, $data);
+        return (string)$this->request('PUT', $path, $data);
     }
 
     /**
@@ -145,8 +145,8 @@ class GuzzleClient implements IHttpClient
      * @return string
      * @throws MountebankException
      */
-    public function delete(string $path) : string
+    public function delete($path)
     {
-        return $this->request('DELETE', $path);
+        return (string)$this->request('DELETE', $path);
     }
 }

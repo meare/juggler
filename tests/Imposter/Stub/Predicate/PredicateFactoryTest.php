@@ -33,23 +33,17 @@ class PredicateFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Predicate::class, $this->factory->createInstance('deepEquals', ['statusCode' => 404]));
     }
 
-    public function testInvalidPredicateType()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->factory->createInstance('invalidType', []);
-    }
-
     public function testInjectWithArrayContract()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->factory->createInstance(Predicate::INJECT, []);
+        $this->factory->createInstance(Predicate::OPERATOR_INJECT, []);
     }
 
     public function testEqualsWithStringContract()
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->factory->createInstance(Predicate::EQUALS, 'predicate');
+        $this->factory->createInstance(Predicate::OPERATOR_EQUALS, 'predicate');
     }
 }

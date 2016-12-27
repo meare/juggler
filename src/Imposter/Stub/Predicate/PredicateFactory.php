@@ -12,13 +12,9 @@ class PredicateFactory
      * @param string|array $contract
      * @return IPredicate
      */
-    public function createInstance(string $type, $contract) : IPredicate
+    public function createInstance($type, $contract)
     {
-        if (!in_array($type, IPredicate::ALLOWED_OPERATORS)) {
-            throw new \InvalidArgumentException("Cannot create predicate object; Invalid predicate type: '$type'");
-        }
-
-        if (IPredicate::INJECT === $type) {
+        if (IPredicate::OPERATOR_INJECT === $type) {
             return $this->createInjection($contract);
         } else {
             return $this->createPredicate($type, $contract);
@@ -29,7 +25,7 @@ class PredicateFactory
      * @param mixed $contract
      * @return Injection
      */
-    private function createInjection($contract) : Injection
+    private function createInjection($contract)
     {
         if (!is_string($contract)) {
             throw new \InvalidArgumentException('Cannot create predicate object; $contract must be string for "inject" predicate');
@@ -43,7 +39,7 @@ class PredicateFactory
      * @param mixed  $contract
      * @return Predicate
      */
-    private function createPredicate(string $type, $contract) : Predicate
+    private function createPredicate($type, $contract)
     {
         if (!is_array($contract)) {
             throw new \InvalidArgumentException("Cannot create predicate object; $contract must be array for '$type' predicate");
