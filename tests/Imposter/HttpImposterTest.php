@@ -14,14 +14,6 @@ use Meare\Juggler\Imposter\Stub\Stub;
 
 class HttpImposterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAddInvalidStubs()
-    {
-        $this->setExpectedException(\TypeError::class);
-        (new HttpImposter)->addStubs([
-            'invalid',
-        ]);
-    }
-
     public function testAddStub()
     {
         $imposter = new HttpImposter;

@@ -61,12 +61,6 @@ class StubTest extends PHPUnit_Framework_TestCase
         ], $stub->jsonSerialize());
     }
 
-    public function testInvalidResponses()
-    {
-        $this->setExpectedException(\TypeError::class);
-        new Stub(['not_a_Response_instance']);
-    }
-
     public function testConstructingWithPredicate()
     {
         $stub = new Stub(
