@@ -139,7 +139,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
     {
         $response = new IsResponse(200, [], 'old body');
 
-        $response->modifyBody(function (string $body) {
+        $response->modifyBody(function ($body) {
             return str_replace('old', 'new', $body);
         });
 

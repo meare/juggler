@@ -39,7 +39,7 @@ class MountebankIntegrationTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Juggler
      */
-    private function getJuggler() : Juggler
+    private function getJuggler()
     {
         return new Juggler('localhost', 2525, $this->httpClient);
     }
