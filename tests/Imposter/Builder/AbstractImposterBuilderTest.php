@@ -20,21 +20,21 @@ class AbstractImposterBuilderTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidJson()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $this->abstractImposterBuilder->build('invalid_json');
     }
 
     public function testProtocolUnset()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $this->abstractImposterBuilder->build('{"port":2525}');
     }
 
     public function testBuilderDoesNotExist()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $this->abstractImposterBuilder->build('{"protocol":"tcp"}');
     }

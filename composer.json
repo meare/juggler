@@ -22,7 +22,7 @@
     "guzzlehttp/guzzle": "^6"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
+    "phpunit/phpunit": "^4.0",
     "scrutinizer/ocular": "~1.1",
     "squizlabs/php_codesniffer": "~2.3"
   },

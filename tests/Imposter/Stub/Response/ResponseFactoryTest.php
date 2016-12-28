@@ -49,7 +49,7 @@ class ResponseFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidType()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $this->factory->createInstance('invalid type', 'does not really matter');
     }

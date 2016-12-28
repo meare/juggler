@@ -12,7 +12,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
     public function testInvalidMode()
     {
         $response = new IsResponse;
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         $response->setMode('invalid_mode');
     }
 
@@ -27,7 +27,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
     public function testInvalidHeaderName()
     {
         $response = new IsResponse;
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         $response->setHeaders([
             1 => 'application/json',
         ]);
@@ -64,7 +64,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
     public function setInvalidBody()
     {
         $response = new IsResponse;
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         $response->setBody(2);
     }
 
@@ -120,7 +120,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
 
     public function testStaticFactoryMethodWithInvalidContract()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         IsResponse::createFromContract([
             // missing statusCode
             'headers' => ['Content-type' => 'application/json'],
@@ -130,7 +130,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidBody()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         new IsResponse(200, [], 123);
     }
@@ -150,7 +150,7 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
     {
         $response = new IsResponse(200, [], 'old body');
 
-        $this->expectException(\LogicException::class);
+        $this->setExpectedException(\LogicException::class);
 
         $response->modifyBody(function () {
         });

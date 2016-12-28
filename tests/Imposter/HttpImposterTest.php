@@ -16,7 +16,7 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddInvalidStubs()
     {
-        $this->expectException(\TypeError::class);
+        $this->setExpectedException(\TypeError::class);
         (new HttpImposter)->addStubs([
             'invalid',
         ]);
@@ -108,7 +108,7 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
 
     public function testStubByPredicateNotFound()
     {
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
 
         (new HttpImposter)->findStubByPredicates([
             ['deepEquals' => ['method' => 'POST']],
@@ -131,7 +131,7 @@ class HttpImposterTest extends \PHPUnit_Framework_TestCase
         $stub = new Stub;
         $imposter = new HttpImposter;
 
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $imposter->removeStub($stub);
     }
 

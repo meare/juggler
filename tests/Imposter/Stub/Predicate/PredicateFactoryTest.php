@@ -35,14 +35,14 @@ class PredicateFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testInjectWithArrayContract()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->factory->createInstance(Predicate::OPERATOR_INJECT, []);
     }
 
     public function testEqualsWithStringContract()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->factory->createInstance(Predicate::OPERATOR_EQUALS, 'predicate');
     }

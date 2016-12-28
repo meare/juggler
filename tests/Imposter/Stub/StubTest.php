@@ -63,7 +63,7 @@ class StubTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidResponses()
     {
-        $this->expectException(\TypeError::class);
+        $this->setExpectedException(\TypeError::class);
         new Stub(['not_a_Response_instance']);
     }
 
@@ -147,21 +147,21 @@ class StubTest extends PHPUnit_Framework_TestCase
     public function testGetResponseByInvalidType()
     {
         $stub = new Stub;
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
         $stub->getResponseOfType('non-existing-type');
     }
 
     public function testResponseOfTypeNotFound()
     {
         $stub = new Stub(new IsResponse);
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getProxyResponse();
     }
 
     public function testResponseOfTypeNotFoundAtIndex()
     {
         $stub = new Stub([new IsResponse, new Injection('http://google.com')]);
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getIsResponse(1);
     }
 
@@ -218,7 +218,7 @@ class StubTest extends PHPUnit_Framework_TestCase
     {
         $stub = new Stub([], []);
 
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getResponse(2);
     }
 }

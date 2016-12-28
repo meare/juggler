@@ -83,7 +83,7 @@ class StubBuilderTest extends PHPUnit_Framework_TestCase
 
     public function testStubWithoutResponseCausesException()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $this->getStubBuilder()->build([
             'predicates' => [

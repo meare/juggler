@@ -11,7 +11,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase
 {
     public function testInvalidOperator()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         new Predicate('invalid', []);
     }
@@ -60,7 +60,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidPredicateType()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         
         new Predicate('invalidType', []);
     }

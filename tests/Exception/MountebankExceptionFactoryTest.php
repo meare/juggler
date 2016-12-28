@@ -31,7 +31,7 @@ EOT
     public function testInvalidErrorCode()
     {
         $factory = new MountebankExceptionFactory;
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
 
         $factory->createInstance('invalid error code', '');
     }
