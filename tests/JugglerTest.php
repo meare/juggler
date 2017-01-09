@@ -3,6 +3,7 @@
 namespace Meare\Juggler\Test;
 
 
+use Meare\Juggler\Exception\Mountebank\NoSuchResourceException;
 use Meare\Juggler\HttpClient\GuzzleClient;
 use Meare\Juggler\Imposter\HttpImposter;
 use Meare\Juggler\Juggler;
@@ -113,15 +114,33 @@ class JugglerTest extends PHPUnit_Framework_TestCase
         $juggler->removeProxies(6565);
     }
 
-    public function testContractIsReturnedOnImposterDeletion()
+    public function testDeleteImposterReturnsContract()
     {
         $this->httpClient->method('delete')
             ->willReturn('{"foo":"bar"}');
 
         $this->assertEquals(
             '{"foo":"bar"}',
-            $this->getJuggler()->deleteImposter(4545),
-            'Juggler returns contract mountebank responded with'
+            $this->getJuggler()->deleteImposter(4545)
+        );
+    }
+
+    public function testDeletingIfExists()
+    {
+        $this->httpClient->method('delete')
+            ->willThrowException(new NoSuchResourceException('{}'));
+
+        $this->assertNull($this->getJuggler()->deleteImposterIfExists(4545));
+    }
+
+    public function testDeleteImposterIfExistsReturnsContract()
+    {
+        $this->httpClient->method('delete')
+            ->willReturn('{"foo":"bar"}');
+
+        $this->assertEquals(
+            '{"foo":"bar"}',
+            $this->getJuggler()->deleteImposterIfExists(4545)
         );
     }
 }

@@ -4,6 +4,7 @@ namespace Meare\Juggler;
 
 
 use Meare\Juggler\Exception\Mountebank\MountebankException;
+use Meare\Juggler\Exception\Mountebank\NoSuchResourceException;
 use Meare\Juggler\HttpClient\GuzzleClient;
 use Meare\Juggler\HttpClient\IHttpClient;
 use Meare\Juggler\Imposter\Builder\AbstractImposterBuilder;
@@ -185,6 +186,21 @@ class Juggler
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
 
         return $this->httpClient->delete("/imposters/$port?$query");
+    }
+
+    /**
+     * @param int|Imposter $imposter
+     * @param bool         $replayable
+     * @param bool         $remove_proxies
+     * @return string|null Imposter contract or null if there was no requested imposter
+     */
+    public function deleteImposterIfExists($imposter, bool $replayable = false, bool $remove_proxies = false)
+    {
+        try {
+            return $this->deleteImposter($imposter, $replayable, $remove_proxies);
+        } catch (NoSuchResourceException $e) {
+            return null;
+        }
     }
 
     /**
