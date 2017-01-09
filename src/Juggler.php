@@ -165,11 +165,12 @@ class Juggler
 
     /**
      * @param Imposter $imposter
+     * @return int Imposter port
      */
     public function replaceImposter(Imposter $imposter)
     {
         $this->deleteImposter($imposter);
-        $this->postImposter($imposter);
+        return $this->postImposter($imposter);
     }
 
     /**
