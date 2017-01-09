@@ -71,8 +71,8 @@ abstract class Imposter implements \JsonSerializable
     }
 
     /**
-     * @param array $criteria
-     * @param int   $exactly Expect exactly n occurrences
+     * @param array|callable $criteria
+     * @param int            $exactly Expect exactly n occurrences
      * @return bool
      * @throws NotFoundException
      */
@@ -87,7 +87,7 @@ abstract class Imposter implements \JsonSerializable
     }
 
     /**
-     * @param array $criteria
+     * @param array|callable $criteria
      * @return int
      */
     public function countRequestsByCriteria($criteria) : int
@@ -100,22 +100,63 @@ abstract class Imposter implements \JsonSerializable
     }
 
     /**
-     * @param array $match
-     * @return array
+     * @param array|callable $criteria
+     * @return array[]
      * @throws NotFoundException
+     * @throws \InvalidArgumentException
      */
-    public function findRequests($match) : array
+    public function findRequests($criteria) : array
+    {
+        switch (true) {
+            case is_array($criteria):
+                $matched_requests = $this->findRequestsWithSubarray($criteria);
+                break;
+
+            case is_callable($criteria):
+                $matched_requests = $this->findRequestsWithCallable($criteria);
+                break;
+
+            default:
+                throw new \InvalidArgumentException('Criteria could only be array or callable');
+        }
+
+        if (0 === sizeof($matched_requests)) {
+            throw new NotFoundException('Unable to find any requests per criteria');
+        }
+
+        return $matched_requests;
+    }
+
+    /**
+     * @param array $criteria
+     * @return array
+     */
+    private function findRequestsWithSubarray($criteria)
     {
         $matched_requests = [];
         foreach ($this->requests as $request) {
-            if (is_subarray_assoc($match, $request)) {
+            if (is_subarray_assoc($criteria, $request)) {
                 $matched_requests[] = $request;
             }
         }
-        if (sizeof($matched_requests) > 0) {
-            return $matched_requests;
+
+        return $matched_requests;
+    }
+
+    /**
+     * @param callback $callback
+     * @return array
+     */
+    private function findRequestsWithCallable($callback)
+    {
+        $matched_requests = [];
+        foreach ($this->requests as $request) {
+            if (true === $callback($request)) {
+                $matched_requests[] = $request;
+            }
         }
-        throw new NotFoundException('Unable to find any requests');
+
+        return $matched_requests;
     }
 
     /**
