@@ -155,4 +155,15 @@ class IsResponseTest extends PHPUnit_Framework_TestCase
         $response->modifyBody(function () {
         });
     }
+
+    public function testSetHeader()
+    {
+        $response = new IsResponse(200, [
+            'Content-type' => 'application/xml'
+        ], 'old body');
+
+        $response->setHeader('Content-type', 'application/json');
+        
+        $this->assertSame('application/json', $response->getHeader('Content-type'));
+    }
 }
