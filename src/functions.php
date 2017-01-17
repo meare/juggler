@@ -51,3 +51,35 @@ function json_object(array $array)
 {
     return sizeof($array) > 0 ? $array : new \stdClass;
 }
+
+/**
+ * Wrapper that throws exception
+ *
+ * @see file_get_contents()
+ * @return string|bool
+ * @throws \RuntimeException
+ */
+function file_get_contents()
+{
+    if (false === $contents = @call_user_func_array('file_get_contents', func_get_args())) {
+        throw new \RuntimeException(error_get_last()['message']);
+    }
+
+    return $contents;
+}
+
+/**
+ * Wrapper that throws exception
+ *
+ * @see file_put_contents()
+ * @return int|bool
+ * @throws \RuntimeException
+ */
+function file_put_contents()
+{
+    if (false === $result = @call_user_func_array('file_put_contents', func_get_args())) {
+        throw new \RuntimeException(error_get_last()['message']);
+    }
+
+    return $result;
+}

@@ -94,6 +94,8 @@ class Juggler
 
     /**
      * @param string $path
+     * @throws \InvalidArgumentException in case contract contents are not valid JSON
+     * @throws \RuntimeException if save to filesystem failed
      * @return Imposter
      */
     public function createImposterFromFile(string $path) : Imposter
@@ -238,15 +240,27 @@ class Juggler
     }
 
     /**
-     * Retrieves imposter contract and saves to a local filesystem
+     * Retrieves imposter contract and saves it to a local filesystem
      *
-     * @param int|Imposter $imposter
-     * @param string       $path
+     * @param int    $port
+     * @param string $path
+     * @throws \RuntimeException if save to filesystem failed
      */
-    public function saveContract($imposter, string $path)
+    public function retrieveAndSaveContract($port, string $path)
     {
-        $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
         file_put_contents($path, $this->getImposterContract($port));
+    }
+
+    /**
+     * Saves Imposter contract to local filesystem
+     *
+     * @param Imposter $imposter
+     * @param string   $path
+     * @throws \RuntimeException if save to filesystem failed
+     */
+    public function saveContract(Imposter $imposter, string $path)
+    {
+        file_put_contents($path, \GuzzleHttp\json_encode($imposter));
     }
 
     /**
