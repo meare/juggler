@@ -151,14 +151,8 @@ class IsResponse implements IResponse
     public function setHeaders(array $headers)
     {
         foreach ($headers as $name => $value) {
-            if (!is_string($name)) {
-                throw new \InvalidArgumentException(
-                    'Unable to set IsResponse headers; Header name expected be string, '
-                    . gettype($name) . " received ('" . (string)$name . "')"
-                );
-            }
+            $this->setHeader($name, $value);
         }
-        $this->headers = $headers;
     }
 
     /**
@@ -186,5 +180,29 @@ class IsResponse implements IResponse
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function setHeader($name, $value)
+    {
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException(
+                'Unable to set IsResponse headers; Header name expected be string, '
+                . gettype($name) . " received ('" . (string)$name . "')"
+            );
+        }
+        $this->headers[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getHeader($name)
+    {
+        return isset($this->headers[$name]) ? $this->headers[$name] : null;
     }
 }

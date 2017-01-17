@@ -9,7 +9,7 @@
     "api",
     "component testing"
   ],
-  "homepage": "https://github.com/TransactPRO/mountebank-php",
+  "homepage": "https://github.com/meare/juggler",
   "license": "MIT",
   "authors": [
     {
@@ -24,7 +24,8 @@
   "require-dev": {
     "phpunit/phpunit": "^4.0",
     "scrutinizer/ocular": "~1.1",
-    "squizlabs/php_codesniffer": "~2.3"
+    "squizlabs/php_codesniffer": "~2.3",
+    "mikey179/vfsStream": "^1.6"
   },
   "autoload": {
     "psr-4": {

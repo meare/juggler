@@ -3,7 +3,9 @@
 namespace Meare\Juggler;
 
 
+use Meare\Juggler\Exception\Client\ClientException;
 use Meare\Juggler\Exception\Mountebank\MountebankException;
+use Meare\Juggler\Exception\Mountebank\NoSuchResourceException;
 use Meare\Juggler\HttpClient\GuzzleClient;
 use Meare\Juggler\HttpClient\IHttpClient;
 use Meare\Juggler\Imposter\Builder\AbstractImposterBuilder;
@@ -93,6 +95,8 @@ class Juggler
 
     /**
      * @param string $path
+     * @throws \InvalidArgumentException in case contract contents are not valid JSON
+     * @throws \RuntimeException if save to filesystem failed
      * @return Imposter
      */
     public function createImposterFromFile($path)
@@ -128,10 +132,19 @@ class Juggler
      * @param bool $replayable
      * @param bool $remove_proxies
      * @return HttpImposter
+     * @throws ClientException in case imposter mountebank returns is not http imposter
      */
     public function getHttpImposter($port, $replayable = false, $remove_proxies = false)
     {
-        return $this->getImposter($port, $replayable, $remove_proxies);
+        $imposter = $this->getImposter($port, $replayable, $remove_proxies);
+
+        if (!$imposter instanceof HttpImposter) {
+            throw new ClientException(
+                "Expected imposter on port $port to be http imposter; got {$imposter->getProtocol()} imposter"
+            );
+        }
+
+        return $imposter;
     }
 
     /**
@@ -164,11 +177,12 @@ class Juggler
 
     /**
      * @param Imposter $imposter
+     * @return int Imposter port
      */
     public function replaceImposter(Imposter $imposter)
     {
         $this->deleteImposter($imposter);
-        $this->postImposter($imposter);
+        return $this->postImposter($imposter);
     }
 
     /**
@@ -185,6 +199,21 @@ class Juggler
         $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
 
         return $this->httpClient->delete("/imposters/$port?$query");
+    }
+
+    /**
+     * @param int|Imposter $imposter
+     * @param bool         $replayable
+     * @param bool         $remove_proxies
+     * @return string|null Imposter contract or null if there was no requested imposter
+     */
+    public function deleteImposterIfExists($imposter, $replayable = false, $remove_proxies = false)
+    {
+        try {
+            return $this->deleteImposter($imposter, $replayable, $remove_proxies);
+        } catch (NoSuchResourceException $e) {
+            return null;
+        }
     }
 
     /**
@@ -221,15 +250,27 @@ class Juggler
     }
 
     /**
-     * Retrieves imposter contract and saves to a local filesystem
+     * Retrieves imposter contract and saves it to a local filesystem
      *
-     * @param int|Imposter $imposter
-     * @param string       $path
+     * @param int    $port
+     * @param string $path
+     * @throws \RuntimeException if save to filesystem failed
      */
-    public function saveContract($imposter, $path)
+    public function retrieveAndSaveContract($port, $path)
     {
-        $port = $imposter instanceof Imposter ? $imposter->getPort() : $imposter;
         file_put_contents($path, $this->getImposterContract($port));
+    }
+
+    /**
+     * Saves Imposter contract to local filesystem
+     *
+     * @param Imposter $imposter
+     * @param string   $path
+     * @throws \RuntimeException if save to filesystem failed
+     */
+    public function saveContract(Imposter $imposter, $path)
+    {
+        file_put_contents($path, \GuzzleHttp\json_encode($imposter));
     }
 
     /**
