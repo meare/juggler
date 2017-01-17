@@ -22,7 +22,7 @@ class JugglerIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Meare\Juggler\Juggler::createImposterFromFile
+     * @covers \Meare\Juggler\Juggler::createImposterFromFile
      */
     public function testRecreatingHttpImposter()
     {
@@ -104,7 +104,7 @@ class JugglerIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Meare\Juggler\Juggler::getImposter
+     * @covers \Meare\Juggler\Juggler::getImposter
      */
     public function testGetImposter()
     {
@@ -129,7 +129,7 @@ class JugglerIntegrationTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Juggler
      */
-    private function getJuggler() : Juggler
+    private function getJuggler()
     {
         return new Juggler('localhost', 2525, $this->httpClient);
     }

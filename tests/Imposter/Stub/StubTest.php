@@ -61,17 +61,11 @@ class StubTest extends PHPUnit_Framework_TestCase
         ], $stub->jsonSerialize());
     }
 
-    public function testInvalidResponses()
-    {
-        $this->expectException(\TypeError::class);
-        new Stub(['not_a_Response_instance']);
-    }
-
     public function testConstructingWithPredicate()
     {
         $stub = new Stub(
             new IsResponse,
-            new Predicate(Predicate::CONTAINS, [
+            new Predicate(Predicate::OPERATOR_CONTAINS, [
                 'body' => 'data',
             ])
         );
@@ -147,21 +141,21 @@ class StubTest extends PHPUnit_Framework_TestCase
     public function testGetResponseByInvalidType()
     {
         $stub = new Stub;
-        $this->expectException(\InvalidArgumentException::class);
+        $this->setExpectedException(\InvalidArgumentException::class);
         $stub->getResponseOfType('non-existing-type');
     }
 
     public function testResponseOfTypeNotFound()
     {
         $stub = new Stub(new IsResponse);
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getProxyResponse();
     }
 
     public function testResponseOfTypeNotFoundAtIndex()
     {
         $stub = new Stub([new IsResponse, new Injection('http://google.com')]);
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getIsResponse(1);
     }
 
@@ -182,7 +176,7 @@ class StubTest extends PHPUnit_Framework_TestCase
 
     public function testGetPredicates()
     {
-        $predicate = new Predicate(Predicate::DEEP_EQUALS, ['body' => '']);
+        $predicate = new Predicate(Predicate::OPERATOR_DEEP_EQUALS, ['body' => '']);
         $stub = new Stub(null, $predicate);
 
         $this->assertSame([$predicate], $stub->getPredicates());
@@ -199,7 +193,7 @@ class StubTest extends PHPUnit_Framework_TestCase
 
     public function testClearPredicates()
     {
-        $stub = new Stub([], [new Predicate(Predicate::DEEP_EQUALS, [])]);
+        $stub = new Stub([], [new Predicate(Predicate::OPERATOR_DEEP_EQUALS, [])]);
 
         $stub->clearPredicates();
 
@@ -218,7 +212,7 @@ class StubTest extends PHPUnit_Framework_TestCase
     {
         $stub = new Stub([], []);
 
-        $this->expectException(NotFoundException::class);
+        $this->setExpectedException(NotFoundException::class);
         $stub->getResponse(2);
     }
 }

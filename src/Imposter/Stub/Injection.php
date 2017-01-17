@@ -18,7 +18,7 @@ class Injection implements IResponse, IPredicate
      */
     private $js;
 
-    public function __construct(string $js)
+    public function __construct($js)
     {
         $this->js = $js;
     }
@@ -27,7 +27,7 @@ class Injection implements IResponse, IPredicate
      * @param string $js Contract is JS string injection in case of 'inject'
      * @return Injection
      */
-    public static function createFromContract($js) : self
+    public static function createFromContract($js)
     {
         return new self($js);
     }
@@ -35,7 +35,7 @@ class Injection implements IResponse, IPredicate
     /**
      * @return string
      */
-    public function getJs() : string
+    public function getJs()
     {
         return $this->js;
     }
@@ -43,7 +43,7 @@ class Injection implements IResponse, IPredicate
     /**
      * @param string $js
      */
-    public function setJs(string $js)
+    public function setJs($js)
     {
         $this->js = $js;
     }
@@ -51,7 +51,7 @@ class Injection implements IResponse, IPredicate
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
         return [
             IResponse::TYPE_INJECT => $this->js,
@@ -61,7 +61,7 @@ class Injection implements IResponse, IPredicate
     /**
      * @return string
      */
-    public function getType() : string
+    public function getType()
     {
         return $this->type;
     }

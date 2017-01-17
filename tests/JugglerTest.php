@@ -55,7 +55,10 @@ class JugglerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(4747, $imposter->getPort());
     }
 
-    private function getJuggler() : Juggler
+    /**
+     * @return Juggler
+     */
+    private function getJuggler()
     {
         return new Juggler(
             $this->host,

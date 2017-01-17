@@ -8,7 +8,6 @@ use Meare\Juggler\Imposter\Stub\Predicate\IPredicate;
 use Meare\Juggler\Imposter\Stub\Response\IResponse;
 use Meare\Juggler\Imposter\Stub\Response\IsResponse;
 use Meare\Juggler\Imposter\Stub\Response\ProxyResponse;
-use function Meare\Juggler\is_subarray_assoc;
 
 class Stub implements \JsonSerializable
 {
@@ -80,7 +79,7 @@ class Stub implements \JsonSerializable
     /**
      * @return array
      */
-    public function getPredicates() : array
+    public function getPredicates()
     {
         return $this->predicates;
     }
@@ -89,15 +88,15 @@ class Stub implements \JsonSerializable
      * @param array $match
      * @return bool
      */
-    public function isPredicatesMatch(array $match) : bool
+    public function isPredicatesMatch(array $match)
     {
-        return is_subarray_assoc($match, $this->jsonSerializePredicates());
+        return \Meare\Juggler\is_subarray_assoc($match, $this->jsonSerializePredicates());
     }
 
     /**
      * @return array
      */
-    private function jsonSerializePredicates() : array
+    private function jsonSerializePredicates()
     {
         $predicates = [];
         foreach ($this->predicates as $predicate) {
@@ -120,7 +119,7 @@ class Stub implements \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
         return [
             'predicates' => $this->jsonSerializePredicates(),
@@ -131,7 +130,7 @@ class Stub implements \JsonSerializable
     /**
      * @return array
      */
-    private function jsonSerializeResponses() : array
+    private function jsonSerializeResponses()
     {
         $responses = [];
         foreach ($this->responses as $response) {
@@ -154,7 +153,7 @@ class Stub implements \JsonSerializable
      * @return IResponse
      * @throws \Meare\Juggler\Exception\Client\NotFoundException
      */
-    public function getResponse(int $nth = 0) : IResponse
+    public function getResponse($nth = 0)
     {
         if (!$this->hasResponse($nth)) {
             throw new NotFoundException("Unable to find response at position $nth");
@@ -167,7 +166,7 @@ class Stub implements \JsonSerializable
      * @param int $index
      * @return bool
      */
-    public function hasResponse(int $index) : bool
+    public function hasResponse($index)
     {
         return isset($this->responses[$index]);
     }
@@ -178,7 +177,7 @@ class Stub implements \JsonSerializable
      * @param int $nth
      * @return IsResponse
      */
-    public function getIsResponse(int $nth = 0) : IsResponse
+    public function getIsResponse($nth = 0)
     {
         return $this->getResponseOfType(IResponse::TYPE_IS, $nth);
     }
@@ -191,9 +190,9 @@ class Stub implements \JsonSerializable
      * @return IResponse
      * @throws NotFoundException
      */
-    public function getResponseOfType(string $type, int $nth = 0) : IResponse
+    public function getResponseOfType($type, $nth = 0)
     {
-        if (!in_array($type, IResponse::ALLOWED_TYPES)) {
+        if (!in_array($type, [IResponse::TYPE_IS, IResponse::TYPE_PROXY, IResponse::TYPE_INJECT])) {
             throw new \InvalidArgumentException("Unknown response type: '$type'");
         }
         $matches_found = 0;
@@ -211,7 +210,7 @@ class Stub implements \JsonSerializable
      * @param int $nth
      * @return ProxyResponse
      */
-    public function getProxyResponse(int $nth = 0) : ProxyResponse
+    public function getProxyResponse($nth = 0)
     {
         return $this->getResponseOfType(IResponse::TYPE_PROXY, $nth);
     }
@@ -222,7 +221,7 @@ class Stub implements \JsonSerializable
      * @param int $nth
      * @return Injection
      */
-    public function getInjectionResponse(int $nth = 0) : Injection
+    public function getInjectionResponse($nth = 0)
     {
         return $this->getResponseOfType(IResponse::TYPE_INJECT, $nth);
     }

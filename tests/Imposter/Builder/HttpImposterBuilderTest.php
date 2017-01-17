@@ -4,6 +4,7 @@ namespace Meare\Juggler\Test\Imposter\Builder;
 
 
 use Meare\Juggler\Imposter\Builder\HttpImposterBuilder;
+use Meare\Juggler\Imposter\Stub\Stub;
 use Meare\Juggler\Imposter\Stub\StubBuilder;
 use PHPUnit_Framework_TestCase;
 
@@ -105,7 +106,9 @@ EOT;
                 'predicates' => [
                     ['equals' => ['except' => '^The ']],
                 ],
-            ]]);
+            ]])
+            ->willReturn(new Stub());
+
         /** @var StubBuilder $stubBuilder */
         $imposterBuilder = $this->getHttpImposterBuilder();
         $imposterBuilder->build(\GuzzleHttp\json_decode($json, true));

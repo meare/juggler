@@ -10,22 +10,14 @@ interface IHttpClient
     /**
      * @param string $host
      */
-    public function setHost(string $host);
+    public function setHost($host);
 
     /**
      * @param string $path
      * @return string Response body
      * @throws MountebankException
      */
-    public function get(string $path) : string;
-
-    /**
-     * @param string $path
-     * @param string $data
-     * @return string Response body
-     * @throws MountebankException
-     */
-    public function post(string $path, string $data) : string;
+    public function get($path);
 
     /**
      * @param string $path
@@ -33,12 +25,20 @@ interface IHttpClient
      * @return string Response body
      * @throws MountebankException
      */
-    public function put(string $path, string $data) : string;
+    public function post($path, $data);
+
+    /**
+     * @param string $path
+     * @param string $data
+     * @return string Response body
+     * @throws MountebankException
+     */
+    public function put($path, $data);
 
     /**
      * @param string $path
      * @return string Response body
      * @throws MountebankException
      */
-    public function delete(string $path) : string;
+    public function delete($path);
 }

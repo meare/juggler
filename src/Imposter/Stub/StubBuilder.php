@@ -28,7 +28,7 @@ class StubBuilder
     /**
      * @return StubBuilder
      */
-    public static function create() : self
+    public static function create()
     {
         return new self(new Response\ResponseFactory, new Predicate\PredicateFactory);
     }
@@ -37,13 +37,15 @@ class StubBuilder
      * @param array $stub_contract
      * @return Stub
      */
-    public function build(array $stub_contract) : Stub
+    public function build(array $stub_contract)
     {
         if (!isset($stub_contract['responses'])) {
             throw new \InvalidArgumentException("Invalid contract: every stub should contain 'responses' field");
         }
         $responseObjects = $this->createResponses($stub_contract['responses']);
-        $predicateObjects = $this->createPredicates($stub_contract['predicates'] ?? []);
+        $predicateObjects = $this->createPredicates(
+            isset($stub_contract['predicates']) ? $stub_contract['predicates'] : []
+        );
 
         return new Stub($responseObjects, $predicateObjects);
     }
@@ -52,7 +54,7 @@ class StubBuilder
      * @param array $response_contracts
      * @return Response\IResponse[]
      */
-    private function createResponses(array $response_contracts) : array
+    private function createResponses(array $response_contracts)
     {
         $responseObjects = [];
         foreach ($response_contracts as $response_contract) {
@@ -72,7 +74,7 @@ class StubBuilder
      * @param array $predicate_contracts
      * @return Predicate\IPredicate[]
      */
-    private function createPredicates(array $predicate_contracts) : array
+    private function createPredicates(array $predicate_contracts)
     {
         $predicateObjects = [];
         foreach ($predicate_contracts as $predicate_contract) {

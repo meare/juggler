@@ -2,26 +2,8 @@
 
 namespace Meare\Juggler\Imposter\Stub\Predicate;
 
-use function Meare\Juggler\json_object;
-
 class Predicate implements IPredicate
 {
-    /**
-     * List of predicates that are defined as array, e.g.:
-     * "or": [
-     *     { "startsWith": { "data": "start" } },
-     *     ...
-     * ]
-     *
-     * Other predicates are defined as object:
-     * "not": {
-     *     "equals": {
-     *          ...
-     *     }
-     *  }
-     */
-    const ARRAY_PREDICATES = [self:: AND, self:: OR];
-
     /**
      * @var array
      */
@@ -36,22 +18,51 @@ class Predicate implements IPredicate
      * @param string $operator
      * @param array  $fields
      */
-    public function __construct(string $operator, array $fields)
+    public function __construct($operator, array $fields)
     {
         $this->setOperator($operator);
         $this->setFields($fields);
     }
 
     /**
+     * Returns list of operators that must be defined as array, e.g. 'or' operator:
+     * "or": [
+     *     { "startsWith": { "data": "start" } },
+     *     ...
+     * ]
+     *
+     * Other predicates must be defined as object:
+     * "not": {
+     *     "equals": {
+     *          ...
+     *     }
+     *  }
+     */
+    public static function getArrayOperators() {
+        return [self::OPERATOR_AND, self::OPERATOR_OR];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAllowedOperators()
+    {
+        return [
+            self::OPERATOR_EQUALS, self::OPERATOR_DEEP_EQUALS, self::OPERATOR_CONTAINS, self::OPERATOR_STARTS_WITH,
+            self::OPERATOR_ENDS_WITH, self::OPERATOR_MATCHES, self::OPERATOR_EXISTS, self::OPERATOR_NOT,
+            self::OPERATOR_OR, self::OPERATOR_AND, self::OPERATOR_INJECT,
+        ];
+    }
+
+    /**
      * @param string $operator
      */
-    private function setOperator(string $operator)
+    private function setOperator($operator)
     {
-        if (!in_array($operator, self::ALLOWED_OPERATORS)) {
-            throw new \InvalidArgumentException(
-                "Cannot set predicate operator: operator '$operator' is not allowed. List of allowed operators: " . implode(',', self::ALLOWED_OPERATORS)
-            );
+        if (!in_array($operator, self::getAllowedOperators())) {
+            throw new \InvalidArgumentException("Cannot create predicate object; Invalid operator: '$operator'");
         }
+
         $this->operator = $operator;
     }
 
@@ -67,7 +78,7 @@ class Predicate implements IPredicate
      * @param array|string $contract
      * @return Predicate
      */
-    public static function createFromContract($contract) : self
+    public static function createFromContract($contract)
     {
         return new self(key($contract), reset($contract));
     }
@@ -75,7 +86,7 @@ class Predicate implements IPredicate
     /**
      * @return string
      */
-    public function getOperator() : string
+    public function getOperator()
     {
         return $this->operator;
     }
@@ -83,7 +94,7 @@ class Predicate implements IPredicate
     /**
      * @return array
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize()
     {
         return [
             $this->operator => $this->jsonSerializeFields(),
@@ -96,10 +107,10 @@ class Predicate implements IPredicate
     private function jsonSerializeFields()
     {
         $this->normalizeFields();
-        if (in_array($this->operator, self::ARRAY_PREDICATES)) {
+        if (in_array($this->operator, self::getArrayOperators())) {
             return $this->fields;
         } else {
-            return json_object($this->fields);
+            return \Meare\Juggler\json_object($this->fields);
         }
     }
 
@@ -112,7 +123,7 @@ class Predicate implements IPredicate
     {
         foreach ($this->fields as $key => $field) {
             if (is_array($field)) {
-                $this->fields[$key] = json_object($field);
+                $this->fields[$key] = \Meare\Juggler\json_object($field);
             }
         }
     }

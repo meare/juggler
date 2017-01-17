@@ -43,7 +43,7 @@ class GuzzleClientTest extends PHPUnit_Framework_TestCase
     {
         $client = $this->getGuzzleJugglerClient(false);
 
-        $this->expectException(\LogicException::class);
+        $this->setExpectedException(\LogicException::class);
 
         $client->get('/');
     }
@@ -52,7 +52,7 @@ class GuzzleClientTest extends PHPUnit_Framework_TestCase
      * @param bool $set_host
      * @return GuzzleClient
      */
-    private function getGuzzleJugglerClient(bool $set_host = true) : GuzzleClient
+    private function getGuzzleJugglerClient($set_host = true)
     {
         if (null === $this->client) {
             $this->setGuzzleMock([]);
@@ -106,7 +106,7 @@ class GuzzleClientTest extends PHPUnit_Framework_TestCase
         $client = $this->getGuzzleJugglerClient();
 
         // Make sure exception is not caught
-        $this->expectException(MountebankException::class);
+        $this->setExpectedException(MountebankException::class);
 
         $client->request('GET', '/');
     }

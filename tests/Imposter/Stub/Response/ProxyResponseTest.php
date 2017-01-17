@@ -13,13 +13,13 @@ class ProxyResponseTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidUrlTo()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         new ProxyResponse('non-url');
     }
 
     public function testValidUrlWithPathTo()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         new ProxyResponse('http://proxy:80/path');
     }
 
@@ -37,7 +37,7 @@ class ProxyResponseTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidMode()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         new ProxyResponse(self::VALID_TO, 'invalid_mode');
     }
 
@@ -65,7 +65,7 @@ class ProxyResponseTest extends PHPUnit_Framework_TestCase
 
     public function testStaticFactoryMethodWithInvalidContract()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         $contract = ['mode' => ProxyResponse::MODE_PROXY_ALWAYS];
         ProxyResponse::createFromContract($contract);
     }
