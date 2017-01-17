@@ -8,7 +8,7 @@
 
 Juggler is a PHP client for [mountebank](http://www.mbtest.org/) - open source tool that provides test doubles over the wire. Juggler allows to:
 
-* interact with mountebank API easily;
+* interact with mountebank API;
 * verify mocks;
 * alter and build imposters;
 
@@ -19,7 +19,7 @@ Only HTTP imposters are supported at the moment.
 Via Composer
 
 ``` bash
-$ composer require meare/juggler:v0.9-beta@dev
+$ composer require meare/juggler:~1.0
 ```
 
 ## Usage
@@ -35,7 +35,7 @@ $juggler->deleteImposters();
 $port = $juggler->postImposterFromFile(__DIR__ . '/contract.json');
 
 // Retrieve imposter contract and save it to file
-$juggler->saveContract($port, __DIR__ . '/retrieved_contract.json');
+$juggler->retrieveAndSaveContract($port, __DIR__ . '/retrieved_contract.json');
 
 $juggler->deleteImposter($port);
 ```
@@ -130,7 +130,7 @@ $juggler = new Juggler('localhost');
 $imposter = new HttpImposter;
 $imposter->createStub(
     [new IsResponse(200, ['Content-type' => 'application/json'], '{"status":200}')],
-    [new Predicate(Predicate::EQUALS, ['method' => 'GET', 'path' => '/test-endpoint'])]
+    [new Predicate(Predicate::OPERATOR_EQUALS, ['method' => 'GET', 'path' => '/test-endpoint'])]
 );
 
 // Post it!
