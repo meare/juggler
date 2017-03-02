@@ -14,6 +14,8 @@ Juggler is a PHP client for [mountebank](http://www.mbtest.org/) - open source t
 
 Only HTTP imposters are supported at the moment.
 
+There is also [Codeception module](https://github.com/meare/codeception-mountebank) available.
+
 ## Install
 
 Via Composer
